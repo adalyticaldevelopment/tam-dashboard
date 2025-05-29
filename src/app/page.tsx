@@ -3,14 +3,19 @@ import React, { useState } from "react";
 import CsvUpload from "../components/CsvUpload";
 import Dashboard from "../components/Dashboard";
 import { KeywordData } from "../lib/types";
-import { parseCsvWithDetection } from "../lib/csvParser";
+
+interface UserMonthData {
+  month: string;
+  convValue: number;
+  cost: number;
+}
 
 export default function Home() {
   const [data, setData] = useState<KeywordData[]>([]);
   const [months, setMonths] = useState<string[]>([]);
   const [parseError, setParseError] = useState<string | null>(null);
   const [showUpload, setShowUpload] = useState(true);
-  const [userData, setUserData] = useState<any[]>([]);
+  const [userData, setUserData] = useState<UserMonthData[]>([]);
 
   const handleDataParsed = (parsedData: KeywordData[], parsedMonths: string[]) => {
     setData(parsedData);
@@ -41,16 +46,16 @@ export default function Home() {
       const convIdx = headers.findIndex(h => h === 'conv. value');
       const costIdx = headers.findIndex(h => h === 'cost');
       if (monthIdx !== -1 && convIdx !== -1 && costIdx !== -1) {
-        const userData = [];
+        const userDataArr: UserMonthData[] = [];
         for (let i = 3; i < lines.length; i++) {
           const row = lines[i].split(',');
           const month = row[monthIdx]?.trim();
           const convValue = parseFloat((row[convIdx] || '').replace(/"|,/g, '')) || 0;
           const cost = parseFloat((row[costIdx] || '').replace(/"|,/g, '')) || 0;
-          if (month) userData.push({ month, convValue, cost });
+          if (month) userDataArr.push({ month, convValue, cost });
         }
-        console.log('Extracted userData:', userData);
-        setUserData(userData);
+        console.log('Extracted userData:', userDataArr);
+        setUserData(userDataArr);
         return;
       }
       // ... do not show any legacy error messages or Total: Account logic ...

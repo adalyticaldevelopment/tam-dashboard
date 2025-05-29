@@ -40,14 +40,22 @@ export function parseCsvWithDetection(text: string): { data: KeywordData[]; mont
     console.log('DEBUG monthlySearches values:', searchCols.map(col => firstRow[headerMap[col.trim()]]));
   }
   const data: KeywordData[] = (result.data as KeywordData[]).map((row: KeywordData) => {
-    const monthlySearches = searchCols.map(col => Number((row as any)[headerMap[col.trim()]]) || 0);
+    const rowObj = row as unknown as Record<string, string | number>;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+    const monthlySearches = searchCols.map(col => Number(rowObj[headerMap[col.trim()]]) || 0);
     return {
-      keyword: (row as any)[headerMap['Keyword']],
-      currency: (row as any)[headerMap['Currency']],
-      avgMonthlySearches: Number((row as any)[headerMap['Avg. monthly searches']]) || 0,
-      competition: (row as any)[headerMap['Competition']],
-      topOfPageBidLow: Number((row as any)[headerMap['Top of page bid (low range)']]) || 0,
-      topOfPageBidHigh: Number((row as any)[headerMap['Top of page bid (high range)']]) || 0,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      keyword: rowObj[headerMap['Keyword']] as string,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      currency: rowObj[headerMap['Currency']] as string,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      avgMonthlySearches: Number(rowObj[headerMap['Avg. monthly searches']]) || 0,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      competition: rowObj[headerMap['Competition']] as string,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      topOfPageBidLow: Number(rowObj[headerMap['Top of page bid (low range)']]) || 0,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      topOfPageBidHigh: Number(rowObj[headerMap['Top of page bid (high range)']]) || 0,
       monthlySearches,
     };
   });

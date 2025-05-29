@@ -107,7 +107,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, months, userData = [] }) =>
       const d = (userData as KeywordData[])[0];
       return {
         spend: d.topOfPageBidHigh || 0,
-        revenue: (d as any).convValue || 0,
+        revenue: 0,
       };
     });
   }
