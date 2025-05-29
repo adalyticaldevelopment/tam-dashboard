@@ -46,7 +46,7 @@ function normalizeMonth(month: string): string {
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ];
-  let m = month.trim().replace(/^Searches: /, '');
+  const m = month.trim().replace(/^Searches: /, '');
   // Match 'September 2024'
   let match = m.match(/^([A-Za-z]+)\s+(\d{4})$/);
   if (match !== null) {
