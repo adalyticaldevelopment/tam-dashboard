@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { parseCsvWithDetection } from '../lib/csvParser';
+import { KeywordData } from '../lib/types';
 
 interface CsvUploadProps {
-  onDataParsed: (data: any[], months: string[]) => void;
+  onDataParsed: (data: KeywordData[], months: string[]) => void;
 }
 
 const CsvUpload: React.FC<CsvUploadProps> = ({ onDataParsed }) => {
@@ -50,8 +51,12 @@ const CsvUpload: React.FC<CsvUploadProps> = ({ onDataParsed }) => {
         const { data, months } = parseCsvWithDetection(text);
         onDataParsed(data, months);
         setSuccess(true);
-      } catch (err: any) {
-        setError(err.message || 'Error parsing CSV');
+      } catch (err: unknown) {
+        if (err && typeof err === 'object' && 'message' in err) {
+          setError((err as { message?: string }).message || 'Error parsing CSV');
+        } else {
+          setError('Error parsing CSV');
+        }
         setSuccess(false);
       }
     };

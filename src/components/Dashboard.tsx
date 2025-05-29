@@ -11,6 +11,7 @@ import {
   Title,
   Tooltip as ChartTooltip,
   Legend as ChartLegend,
+  TooltipItem
 } from 'chart.js';
 
 ChartJS.register(
@@ -72,7 +73,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, months, userData = [] }) =>
   // Debug: print market and user months
   console.log('Market months (normalized):', xLabels);
   if (Array.isArray(userData) && userData.length > 0 && 'month' in userData[0]) {
-    const userMonths = (userData as any[]).map(row => typeof row.month === 'string' ? normalizeMonth(row.month) : null).filter(Boolean);
+    const userMonths = (userData as UserMonthData[]).map(row => typeof row.month === 'string' ? normalizeMonth(row.month) : null).filter(Boolean);
     console.log('User months (normalized):', userMonths);
   }
   // Prepare clean month labels for display
@@ -92,7 +93,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, months, userData = [] }) =>
   let userStats: { spend: number | null; revenue: number | null }[] = [];
   if (Array.isArray(userData) && userData.length > 0 && 'month' in userData[0]) {
     const userMonthMap: Record<string, { revenue: number; cost: number }> = {};
-    (userData as any[]).forEach(row => {
+    (userData as UserMonthData[]).forEach(row => {
       const normMonth = normalizeMonth(row.month);
       userMonthMap[normMonth] = { revenue: row.convValue, cost: row.cost };
     });
@@ -102,11 +103,11 @@ const Dashboard: React.FC<DashboardProps> = ({ data, months, userData = [] }) =>
     });
   } else if (userData && userData.length > 0) {
     // fallback for old format: single month
-    userStats = xLabels.map((_, i) => {
-      const d = (userData as any)[0];
+    userStats = xLabels.map(() => {
+      const d = (userData as KeywordData[])[0];
       return {
         spend: d.topOfPageBidHigh || 0,
-        revenue: d.convValue || 0,
+        revenue: (d as any).convValue || 0,
       };
     });
   }
@@ -181,7 +182,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, months, userData = [] }) =>
         mode: 'index' as const,
         intersect: false,
         callbacks: {
-          label: (context: any) => {
+          label: (context: TooltipItem<'line'>) => {
             const label = context.dataset.label || '';
             return `${label}: £${context.parsed.y.toLocaleString()}`;
           },
