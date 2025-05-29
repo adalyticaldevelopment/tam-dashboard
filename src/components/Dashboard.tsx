@@ -274,9 +274,8 @@ const Dashboard: React.FC<DashboardProps> = ({ data, months, userData = [] }) =>
               plugins: {
                 ...chartOptions.plugins,
                 legend: {
-                  ...chartOptions.plugins.legend,
+                  display: false,
                   labels: {
-                    ...chartOptions.plugins.legend.labels,
                     color: '#fff',
                   },
                 },
