@@ -117,13 +117,17 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+html, body {
+  background: transparent !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
-    background: var(--brand-light);
+    /* background: var(--brand-light); */
     font-family: 'Inter', Arial, sans-serif;
     color: var(--brand-dark);
   }
@@ -135,7 +139,7 @@
   align-items: center;
   justify-content: center;
   padding: 48px 0;
-  background: var(--brand-light);
+  background: transparent;
 }
 
 .dashboard-card {
@@ -173,7 +177,7 @@
 }
 
 .upload-card {
-  background: var(--brand-accent);
+  background: transparent;
   border-radius: 20px;
   box-shadow: 0 4px 16px rgba(35, 80, 27, 0.10);
   padding: 32px 24px;
