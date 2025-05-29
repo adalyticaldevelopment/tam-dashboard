@@ -37,7 +37,6 @@ export function parseCsvWithDetection(text: string): { data: KeywordData[]; mont
     const firstRow = result.data[0];
     console.log('DEBUG searchCols:', searchCols);
     console.log('DEBUG firstRow:', firstRow);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     console.log('DEBUG monthlySearches values:', searchCols.map(col => ((firstRow as unknown as Record<string, string | number>)[headerMap[col.trim()]])));
   }
   const data: KeywordData[] = (result.data as KeywordData[]).map((row: KeywordData) => {
