@@ -64,7 +64,7 @@ export default function Home() {
   };
 
   return (
-    <div className="dashboard-container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--brand-light)', padding: '19px 0' }}>
+    <div className="dashboard-container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', padding: '19px 0' }}>
       <div className="dashboard-card" style={{ width: '100%', maxWidth: 1280, background: 'var(--brand-dark)', borderRadius: 24, boxShadow: '0 8px 32px rgba(35,80,27,0.12)', padding: '25.6px 19.2px', display: 'flex', flexDirection: 'column', gap: 0 }}>
         {/* Top menu */}
         <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: 25.6, gap: 12.8 }}>
